@@ -77,8 +77,8 @@ class Service3:
 
     @rpc
     async def mul(self, x=1):
-        rpc = await RpcProxy(self.config).create()
-        y = await rpc.Service.add(1, 1)
+        async with await RpcProxy().create(self.config) as rpc:
+            y = await rpc.Service1.add(1, 1)
         return x * y
 ```
 
@@ -97,30 +97,39 @@ from jiama.client import RpcProxy
 
 class Client:
     def __init__(self):
-        self.config = {'uri': 'amqp://guest:guest@localhost'}
+        self.config = {
+            'rpc': {
+                'client_id': 'test',
+                'amqp_uri': 'amqp://guest:guest@localhost/',
+            }
+        }
 
     async def init(self):
         '''
         这是一个需要被你的框架自动调用的初始化方法，比如: fastAPI 的 startup
         This is a initialization method invoked by you framework like fastAPI's startup
         '''
-        self.rpc = await RpcProxy(self.config).create()
+        self.rpc = await RpcProxy().create(self.config)
+        return self
 
     async def req(self):
         r = await self.rpc.Service1.add(3, 2)
-        print(r)
+        logger.info(f'Result of add is {r}')
 
         r = await self.rpc.Service2.sub(30, 9)
-        print(r)
+        logger.info(f'Result of sub is {r}')
 
         r = await self.rpc.Service3.mul(5)
-        print(r)
+        logger.info(f'Result of mul with nested rpc is {r}')
+
+    async def destroy(self):
+        await self.rpc.close()
 
 
 async def main():
-    c = Client()
-    await c.init()
+    c = await Client().init()
     await c.req()
+    await c.destroy()
 
 if __name__ == '__main__':
     asyncio.run(main())
