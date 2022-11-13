@@ -2,6 +2,7 @@
 一个基于 RabbitMQ 的异步 RPC 框架。
 An asyncio RPC framework based on RabbitMQ.
 
+![甲马](https://github.com/imlzg/image/blob/0f3431974c6ee5780048f134e418fd7a00cd2927/jiama.png)
 
 俗话说：外事不决用 REST，内事不决用 RPC，找一圈只发现一个 Nameko，却是同步的，遂有 Jiama 问世。
 
