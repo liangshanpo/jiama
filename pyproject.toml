@@ -1,0 +1,111 @@
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'jiama'
+version = '0.8.1'
+description = 'An aio RPC framework based on RabbitMQ.'
+readme = 'README.md'
+requires-python = '>=3.10'
+license = {text = 'MIT License'}
+authors = [
+    {name='Li zhigang', email='imlzg@126.com'},
+]
+keywords = [
+    'asyncio',
+    'rpc',
+    'rabbitmq'
+]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+
+    'Intended Audience :: Developers',
+    'Topic :: Communications',
+    # 'Topic :: Internet :: WWW/HTTP',
+    # 'Topic :: Software Development :: Libraries :: Python Modules',
+
+    'License :: OSI Approved :: MIT License',
+
+    'Framework :: AsyncIO',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11'
+]
+dependencies = [
+    'aio-pika',
+    'click',
+    'yujian',
+    'tomli',
+    'loguru'
+]
+
+[project.scripts]
+jiama = 'jiama.cli:jiama'
+
+
+[project.urls]
+'Homepage' = 'https://github.com/liangshanpo/jiama'
+'Bug Tracker' = 'https://github.com/liangshanpo/jiama/issues'
+
+
+[tool.black]
+line-length = 90
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+    | \.git
+    | \.github
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.pyre_configuration
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | pipenv/vendor
+    | pipenv/patched
+    | test/pypi
+    | test/pytest-pypi
+    | test/test_artifacts
+    | get-pipenv.py
+    | pyproject.toml
+)/
+'''
+
+[tool.isort]
+atomic = true
+lines_after_imports = 2
+lines_between_types = 1
+multi_line_output = 5
+line_length = 80
+known_first_party = [
+    'test'
+]
+
+[tool.pytest.ini_options]
+addopts = '-ra -q --asyncio-mode=auto'
+testpaths = ['test']
+norecursedirs = [
+    '.*',
+    'build',
+    'dist',
+    'CVS',
+    '_darcs',
+    '{arch}',
+    '*.egg',
+    'vendor',
+    'patched',
+    'news',
+    'tasks',
+    'docs',
+    'test/test_artifacts',
+    'test/pytest-pypi',
+    'test/pypi',
+    'peeps',
+]

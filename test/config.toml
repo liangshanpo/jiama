@@ -1,0 +1,17 @@
+[rpc]
+amqp_uri = 'amqp://guest:guest@localhost/'
+max_connection = 2
+max_channel = 10
+prefetch_count = 3
+delivery_mode = 2
+expiration = 3000
+timeout = 300
+durable = true
+
+[[log.handlers]]
+sink = 'jiama.log'
+level = 'INFO'
+format = '{time} {level}: {message}'
+rotation = '1 day'
+retention = '30 days'
+compression = 'gz'
